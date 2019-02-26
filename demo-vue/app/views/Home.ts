@@ -1,4 +1,3 @@
-import { getExamples } from '../examples';
 
 export default {
     name: 'Home',
