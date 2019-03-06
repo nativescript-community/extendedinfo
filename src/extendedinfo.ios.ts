@@ -19,71 +19,67 @@ export function isSimulator() {
 }
 
 let mainBundle: NSBundle;
-export function getMainBundle(): Promise<NSBundle> {
-    if (mainBundle) {
-        return Promise.resolve(mainBundle);
+function getMainBundleSync() {
+    if (!mainBundle) {
+        mainBundle = iosUtils.getter(NSBundle, NSBundle.mainBundle);
     }
-    return new Promise((resolve, reject) => {
-        try {
-            mainBundle = iosUtils.getter(NSBundle, NSBundle.mainBundle);
-            resolve(mainBundle);
-        } catch (ex) {
-            console.log('Error in appversion.getBuildNumber: ' + ex);
-            reject(ex);
-        }
-    });
+    return mainBundle;
+}
+
+function getMainBundle(): Promise<NSBundle> {
+    return Promise.resolve().then(() => getMainBundleSync());
 }
 let infoDict: NSDictionary<string, any>;
-export function getInfoDict(): Promise<NSDictionary<string, any>> {
-    if (infoDict) {
-        return Promise.resolve(infoDict);
+function getInfoDictSync() {
+    if (!infoDict) {
+        infoDict = getMainBundleSync().infoDictionary;
     }
-    return getMainBundle().then(b => {
-        infoDict = b.infoDictionary;
-        return infoDict;
-    });
+    return infoDict;
+}
+function getInfoDict(): Promise<NSDictionary<string, any>> {
+    return Promise.resolve().then(() => getInfoDictSync()); 
 }
 
 let AppIdVar: string;
-export function getAppId(): Promise<string> {
-    if (AppIdVar) {
-        return Promise.resolve(AppIdVar);
+export function getAppIdSync(): string {
+    if (!AppIdVar) {
+        AppIdVar = getMainBundleSync().bundleIdentifier;
     }
-    return getMainBundle().then(b => {
-        AppIdVar = mainBundle.bundleIdentifier;
-        return AppIdVar;
-    });
+    return AppIdVar;
+}
+export function getAppId(): Promise<string> {
+    return Promise.resolve().then(() => getAppIdSync());
 }
 
 let AppNameVar: string;
-export function getAppName(): Promise<string> {
-    if (AppNameVar) {
-        return Promise.resolve(AppNameVar);
+export function getAppNameSync(): string {
+    if (!AppNameVar) {
+        AppNameVar = getInfoDictSync().objectForKey('CFBundleDisplayName');
     }
-    return getInfoDict().then(d => {
-        AppNameVar = d.objectForKey('CFBundleDisplayName');
-        return AppNameVar;
-    });
+    return AppIdVar;
+}
+export function getAppName(): Promise<string> {
+    return Promise.resolve().then(() => getAppNameSync());
 }
 
 let VersionNameVar: string;
-export function getVersionName(): Promise<string> {
-    if (VersionNameVar) {
-        return Promise.resolve(VersionNameVar);
+export function getVersionNameSync(): string {
+    if (!VersionNameVar) {
+        VersionNameVar = getInfoDictSync().objectForKey('CFBundleShortVersionString');
     }
-    return getInfoDict().then(d => {
-        VersionNameVar = d.objectForKey('CFBundleShortVersionString');
-        return VersionNameVar;
-    });
+    return VersionNameVar;
+}
+export function getVersionName(): Promise<string> {
+    return Promise.resolve().then(() => getVersionNameSync());
 }
 
 let BuildNumberVar: number;
-export function getBuildNumber(): Promise<number> {
-    if (BuildNumberVar) {
-        return Promise.resolve(BuildNumberVar);
+export function getBuildNumberSync(): number {
+    if (!BuildNumberVar) {
+        BuildNumberVar = getInfoDictSync().objectForKey('CFBundleShortVersionString');
     }
-    return getInfoDict().then(d => {
-        BuildNumberVar = d.objectForKey('CFBundleVersion');
-        return BuildNumberVar;
-    });
+    return BuildNumberVar;
+}
+export function getBuildNumber(): Promise<number> {
+    return Promise.resolve().then(() => getBuildNumberSync());
 }

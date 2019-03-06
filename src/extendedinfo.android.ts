@@ -18,31 +18,35 @@ export function isSimulator() {
 }
 
 let appContext: android.content.Context;
-function getAppContext(): Promise<android.content.Context> {
-    if (appContext) {
-        return Promise.resolve(appContext);
+function getAppContextSync(): android.content.Context {
+    if (!appContext) {
+        appContext = application.android.context;
     }
-    return new Promise((resolve, reject) => {
-        function _resolve() {
-            appContext = application.android.context;
-            resolve(appContext);
+    return appContext;
+}
+function getAppContext(): Promise<android.content.Context> {
+    return new Promise(resolve => {
+        getAppContextSync();
+        if (appContext) {
+            return resolve(appContext);
         }
-
-        try {
-            if (application.android.context) {
-                _resolve();
-            } else {
-                // if this is called before application.start() wait for the event to fire
-                application.on(application.launchEvent, _resolve);
-            }
-        } catch (ex) {
-            console.log('Error in getAppContext: ' + ex);
-            reject(ex);
-        }
+        // if this is called before application.start() wait for the event to fire
+        application.on(application.launchEvent, () => resolve(getAppContextSync()));
     });
 }
 
 let cachedPackageInfo: android.content.pm.PackageInfo;
+function getPackageInfoSync(): android.content.pm.PackageInfo {
+    if (!cachedPackageInfo) {
+        const context = getAppContextSync();
+        if (context) {
+            const packageManager = context.getPackageManager();
+            cachedPackageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        }
+    }
+    return cachedPackageInfo;
+}
+
 function getPackageInfo(): Promise<android.content.pm.PackageInfo> {
     if (cachedPackageInfo) {
         return Promise.resolve(cachedPackageInfo);
@@ -55,57 +59,63 @@ function getPackageInfo(): Promise<android.content.pm.PackageInfo> {
 }
 
 let AppIdVar: string;
+export function getAppIdSync(): string {
+    if (!AppIdVar) {
+        const context = getAppContextSync();
+        if (context) {
+            AppIdVar = context.getPackageName();
+        }
+    }
+    return AppIdVar;
+}
 export function getAppId(): Promise<string> {
     if (AppIdVar) {
         return Promise.resolve(AppIdVar);
     }
-    return getAppContext().then(c => {
-        AppIdVar = c.getPackageName();
-        return AppIdVar;
-    });
+    return getAppContext().then(c => getAppIdSync());
+}
+
+export function getAppNameSync(): string {
+    const context = getAppContextSync();
+    const applicationInfo = context.getApplicationInfo();
+    const stringId = applicationInfo.labelRes;
+    return stringId === 0 ? applicationInfo.nonLocalizedLabel : context.getString(stringId);
 }
 
 export function getAppName(): Promise<string> {
-    return new Promise((resolve, reject) => {
-        function _resolve() {
-            const context: android.content.Context = application.android.context;
-            const applicationInfo = context.getApplicationInfo();
-            const stringId = applicationInfo.labelRes;
-            resolve(stringId === 0 ? applicationInfo.nonLocalizedLabel : context.getString(stringId));
-        }
-
-        try {
-            if (application.android.context) {
-                _resolve();
-            } else {
-                // if this is called before application.start() wait for the event to fire
-                application.on(application.launchEvent, _resolve);
-            }
-        } catch (ex) {
-            console.log('Error in appversion.getAppName: ' + ex);
-            reject(ex);
-        }
-    });
+    return getAppContext().then(c => getAppNameSync());
 }
 
 let VersionNameVar: string;
-export function getVersionName(): Promise<any> {
+export function getVersionNameSync(): string {
+    if (!VersionNameVar) {
+        const p = getPackageInfoSync();
+        if (p) {
+            VersionNameVar = p.versionName;
+        }
+    }
+    return VersionNameVar;
+}
+export function getVersionName(): Promise<string> {
     if (VersionNameVar) {
         return Promise.resolve(VersionNameVar);
     }
-    return getPackageInfo().then(r => {
-        VersionNameVar = r.versionName;
-        return VersionNameVar;
-    });
+    return getPackageInfo().then(() => getVersionNameSync());
 }
 
 let BuildNumberVar: number;
+export function getBuildNumberSync(): number {
+    if (!BuildNumberVar) {
+        const p = getPackageInfoSync();
+        if (p) {
+            BuildNumberVar = p.versionCode;
+        }
+    }
+    return BuildNumberVar;
+}
 export function getBuildNumber(): Promise<number> {
     if (BuildNumberVar) {
         return Promise.resolve(BuildNumberVar);
     }
-    return getPackageInfo().then(r => {
-        BuildNumberVar = r.versionCode;
-        return BuildNumberVar;
-    });
+    return getPackageInfo().then(() => getBuildNumberSync());
 }
