@@ -37,7 +37,7 @@ function getInfoDictSync() {
     return infoDict;
 }
 function getInfoDict(): Promise<NSDictionary<string, any>> {
-    return Promise.resolve().then(() => getInfoDictSync()); 
+    return Promise.resolve().then(() => getInfoDictSync());
 }
 
 let AppIdVar: string;
