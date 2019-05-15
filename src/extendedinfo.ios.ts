@@ -5,13 +5,13 @@ let isSimulatorCache: boolean;
 export function isSimulator() {
     if (isSimulatorCache === undefined) {
         const osMajorVersion = +platform.device.osVersion;
-        const processInfo = iosUtils.getter(NSProcessInfo, NSProcessInfo.processInfo);
+        const processInfo = NSProcessInfo.processInfo;
         const isMinIOS9 = osMajorVersion > 9;
         if (isMinIOS9) {
             const simDeviceName = processInfo.environment.objectForKey('SIMULATOR_DEVICE_NAME');
             isSimulatorCache = simDeviceName !== null;
         } else {
-            const currentDevice = iosUtils.getter(UIDevice, UIDevice.currentDevice);
+            const currentDevice = UIDevice.currentDevice;
             isSimulatorCache = currentDevice.name.toLowerCase().indexOf('simulator') > -1;
         }
     }
@@ -21,7 +21,7 @@ export function isSimulator() {
 let mainBundle: NSBundle;
 function getMainBundleSync() {
     if (!mainBundle) {
-        mainBundle = iosUtils.getter(NSBundle, NSBundle.mainBundle);
+        mainBundle = NSBundle.mainBundle;
     }
     return mainBundle;
 }
