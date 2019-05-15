@@ -4,7 +4,7 @@ import * as platform from 'tns-core-modules/platform';
 let isSimulatorCache: boolean;
 export function isSimulator() {
     if (isSimulatorCache === undefined) {
-        const osMajorVersion = +platform.device.osVersion.charAt(0);
+        const osMajorVersion = +platform.device.osVersion;
         const processInfo = iosUtils.getter(NSProcessInfo, NSProcessInfo.processInfo);
         const isMinIOS9 = osMajorVersion > 9;
         if (isMinIOS9) {
@@ -76,7 +76,7 @@ export function getVersionName(): Promise<string> {
 let BuildNumberVar: number;
 export function getBuildNumberSync(): number {
     if (!BuildNumberVar) {
-        BuildNumberVar = getInfoDictSync().objectForKey('CFBundleShortVersionString');
+        BuildNumberVar = parseInt(getInfoDictSync().objectForKey('CFBundleVersion'), 10);
     }
     return BuildNumberVar;
 }
