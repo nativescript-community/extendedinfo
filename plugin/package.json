@@ -1,8 +1,9 @@
 {
     "name": "nativescript-extendedinfo",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Nativescript ExtendedInfo plugin.",
     "main": "./extendedinfo",
+    "module": "./extendedinfo.mjs",
     "typings": "./extendedinfo.d.ts",
     "nativescript": {
         "platforms": {

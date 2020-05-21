@@ -19,3 +19,6 @@ Pods
 !plugin/platforms
 /plugin/platforms/android/nativescript_*.aar
 *.xcuserdatad
+
+plugin/**/*js.map
+plugin/**/*js

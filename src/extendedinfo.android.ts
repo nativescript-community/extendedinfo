@@ -1,4 +1,4 @@
-import * as application from 'application';
+import * as application from '@nativescript/core/application';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {

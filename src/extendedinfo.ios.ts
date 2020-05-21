@@ -1,5 +1,4 @@
-import { ios as iosUtils } from 'tns-core-modules/utils/utils';
-import * as platform from 'tns-core-modules/platform';
+import * as platform from '@nativescript/core/platform';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {
