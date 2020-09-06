@@ -70,8 +70,8 @@ module.exports = env => {
         const srcFullPath = resolve(projectRoot, '..', 'src');
         aliases = Object.assign(aliases, {
             '#':srcFullPath,
-            'nativescript-extendedinfo': '#/canvas.' + platform,
-            'nativescript-extendedinfo$': '#/canvas.' + platform
+            '@nativescript-community/extendedinfo': '#/canvas.' + platform,
+            '@nativescript-community/extendedinfo$': '#/canvas.' + platform
         });
     }
 

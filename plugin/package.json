@@ -1,6 +1,6 @@
 {
-    "name": "nativescript-extendedinfo",
-    "version": "1.0.10",
+    "name": "@nativescript-community/extendedinfo",
+    "version": "1.0.11",
     "description": "Nativescript ExtendedInfo plugin.",
     "main": "./extendedinfo",
     "sideEffects": false,
@@ -22,9 +22,9 @@
         "email": "martin@akylas.fr"
     },
     "bugs": {
-        "url": "https://github.com/Akylas/nativescript-extendedinfo/issues"
+        "url": "https://github.com/nativescript-community/extendedinfo/issues"
     },
     "license": "Apache-2.0",
-    "homepage": "https://github.com/Akylas/nativescript-extendedinfo",
+    "homepage": "https://github.com/nativescript-community/extendedinfo",
     "readmeFilename": "README.md"
 }

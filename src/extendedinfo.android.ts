@@ -1,4 +1,4 @@
-import * as application from '@nativescript/core/application';
+import { android as androidApp, launchEvent, off, on } from '@nativescript/core/application';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {
@@ -21,18 +21,18 @@ export function isSimulator() {
 let appContext: android.content.Context;
 function getAppContextSync(): android.content.Context {
     if (!appContext) {
-        appContext = application.android.context;
+        appContext = androidApp.context;
     }
     return appContext;
 }
 function getAppContext(): Promise<android.content.Context> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         getAppContextSync();
         if (appContext) {
             return resolve(appContext);
         }
         // if this is called before application.start() wait for the event to fire
-        application.on(application.launchEvent, () => resolve(getAppContextSync()));
+        on(launchEvent, () => resolve(getAppContextSync()));
     });
 }
 
@@ -52,7 +52,7 @@ function getPackageInfo(): Promise<android.content.pm.PackageInfo> {
     if (cachedPackageInfo) {
         return Promise.resolve(cachedPackageInfo);
     }
-    return getAppContext().then(c => {
+    return getAppContext().then((c) => {
         const packageManager = c.getPackageManager();
         cachedPackageInfo = packageManager.getPackageInfo(c.getPackageName(), 0);
         return cachedPackageInfo;
@@ -73,7 +73,7 @@ export function getAppId(): Promise<string> {
     if (AppIdVar) {
         return Promise.resolve(AppIdVar);
     }
-    return getAppContext().then(c => getAppIdSync());
+    return getAppContext().then((c) => getAppIdSync());
 }
 
 export function getAppNameSync(): string {
@@ -84,7 +84,7 @@ export function getAppNameSync(): string {
 }
 
 export function getAppName(): Promise<string> {
-    return getAppContext().then(c => getAppNameSync());
+    return getAppContext().then((c) => getAppNameSync());
 }
 
 let VersionNameVar: string;

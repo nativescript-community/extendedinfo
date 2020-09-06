@@ -1,10 +1,11 @@
 {
-    "name": "nativescript-extendedinfo",
+    "name": "@nativescript-community/extendedinfo",
     "version": "1.0.0",
     "scripts": {
+        "setup": "ts-patch install",
         "tsc": "cp src/extendedinfo.d.ts plugin && tsc -skipLibCheck -d",
-        "build": "rm -f .tsbuildinfo && npm run tsc && npm run build.esm",
-        "build.esm": "tsc -skipLibCheck --target es2015 --module esnext --removeComments --outDir build/esm && node ./build.esm.js",
+        "build": "rm -f .tsbuildinfo && npm run tsc",
+        "publish": "npm run setup && npm run build && lerna publish",
         "demo.ios": "npm i && npm run tsc && cd demo && tns run ios",
         "demo.android": "npm i && npm run tsc && cd demo && tns run android",
         "clean.demo": "rimraf demo/hooks demo/node_modules demo/platforms",
@@ -15,27 +16,35 @@
         "plugin.watch": "npm run plugin.watch.tsc & npm run plugin.watch.android & npm run plugin.watch.ios"
     },
     "devDependencies": {
+        "@commitlint/cli": "^9.1.2",
+        "@commitlint/config-conventional": "^9.1.2",
+        "@nativescript/core": "7.0.0",
+        "@nativescript/types-android": "7.0.2",
+        "@nativescript/types-ios": "7.0.1",
+        "@nativescript/webpack": "~3.0.1",
         "@types/node": "^10.12.21",
-        "npm-watch": "^0.6.0",
+        "@typescript-eslint/eslint-plugin": "4.0.1",
+        "@typescript-eslint/parser": "4.0.1",
+        "eslint": "7.8.1",
+        "husky": "^4.2.5",
+        "lerna": "^3.22.1",
+        "npm-watch": "^0.7.0",
         "prompt": "^1.0.0",
-        "recursive-copy": "^2.0.10",
         "rimraf": "^3.0.2",
-        "through2": "^3.0.1",
-        "@nativescript/core": "6.5.1",
-        "tns-platform-declarations": "^6.5.1",
-        "tslint": "^6.1.2",
-        "tslint-config-prettier": "^1.18.0",
-        "tslint-config-standard": "^8.0.1",
-        "typescript": "~3.2.4"
+        "ts-patch": "1.3.0",
+        "typescript": "~3.9.7"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Akylas/nativescript-extendedinfo.git"
+        "url": "git+https://github.com/nativescript-community/extendedinfo.git"
     },
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Akylas/nativescript-extendedinfo/issues"
+        "url": "https://github.com/nativescript-community/extendedinfo/issues"
     },
-    "homepage": "https://github.com/Akylas/nativescript-extendedinfo#readme"
+    "homepage": "https://github.com/nativescript-community/extendedinfo#readme",
+    "dependencies": {
+        "ts-node": "^9.0.0"
+    }
 }

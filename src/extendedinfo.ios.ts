@@ -1,9 +1,9 @@
-import * as platform from '@nativescript/core/platform';
+import { Device } from '@nativescript/core/platform';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {
     if (isSimulatorCache === undefined) {
-        const osMajorVersion = +platform.device.osVersion;
+        const osMajorVersion = +Device.osVersion;
         const processInfo = NSProcessInfo.processInfo;
         const isMinIOS9 = osMajorVersion > 9;
         if (isMinIOS9) {
