@@ -75,7 +75,14 @@ export function getVersionName(): Promise<string> {
 let BuildNumberVar: number;
 export function getBuildNumberSync(): number {
     if (!BuildNumberVar) {
-        BuildNumberVar = parseInt(getInfoDictSync().objectForKey('CFBundleVersion'), 10);
+        if (!BuildNumberVar) {
+            const version = getInfoDictSync().objectForKey('CFBundleVersion');
+            if (isNaN(version)) {
+                BuildNumberVar = version;
+            } else {
+                BuildNumberVar = parseInt(version, 10);
+            }
+        }
     }
     return BuildNumberVar;
 }
