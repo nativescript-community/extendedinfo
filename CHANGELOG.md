@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/nativescript-community/extendedinfo/compare/v1.2.0...v1.2.1) (2021-09-21)
+
+
+### Bug Fixes
+
+* **ios:** support string CFBundleVersion ([6c393bb](https://github.com/nativescript-community/extendedinfo/commit/6c393bb8f41c05b96a336d1fc69e4a96f56c890e))
+
+
+
+
+
 # 1.2.0 (2020-09-06)
 
 
