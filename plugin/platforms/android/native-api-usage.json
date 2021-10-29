@@ -1,0 +1,8 @@
+{
+    "uses":[
+        "android.os:Build*",
+        "android.content.pm:PackageManager*",
+        "android.content.pm:PackageInfo*",
+        "android.content:Context*"
+    ]
+}
