@@ -1,4 +1,5 @@
-import { android as androidApp, launchEvent, off, on } from '@nativescript/core/application';
+import { Utils } from '@nativescript/core';
+import { launchEvent, on } from '@nativescript/core/application';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {
@@ -11,7 +12,6 @@ export function isSimulator() {
             Build.MODEL.indexOf('Emulator') !== -1 ||
             Build.MODEL.indexOf('Android SDK built for x86') !== -1 ||
             Build.MANUFACTURER.indexOf('Genymotion') !== -1 ||
-            Build.MANUFACTURER.indexOf('Genymotion') !== -1 ||
             (Build.BRAND.startsWith('generic') && Build.DEVICE.startsWith('generic')) ||
             Build.PRODUCT.indexOf('sdk') !== -1;
     }
@@ -21,7 +21,7 @@ export function isSimulator() {
 let appContext: android.content.Context;
 function getAppContextSync(): android.content.Context {
     if (!appContext) {
-        appContext = androidApp.context;
+        appContext = Utils.android.getApplicationContext();
     }
     return appContext;
 }
