@@ -1,4 +1,5 @@
-import { android as androidApp, launchEvent, off, on } from '@nativescript/core/application';
+import { Utils } from '@nativescript/core';
+import { launchEvent, on } from '@nativescript/core/application';
 
 let isSimulatorCache: boolean;
 export function isSimulator() {
@@ -20,7 +21,7 @@ export function isSimulator() {
 let appContext: android.content.Context;
 function getAppContextSync(): android.content.Context {
     if (!appContext) {
-        appContext = androidApp.context;
+        appContext = Utils.android.getApplicationContext();
     }
     return appContext;
 }
