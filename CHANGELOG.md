@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/nativescript-community/extendedinfo/compare/v1.3.0...v1.3.1) (2022-03-16)
+
+
+### Bug Fixes
+
+* **android:** fix cannot read property 'context' of undefined ([395d924](https://github.com/nativescript-community/extendedinfo/commit/395d9243de7c134f22bce6fbfeca145a2010addd))
+
+
+
+
+
 # [1.3.0](https://github.com/nativescript-community/extendedinfo/compare/v1.2.1...v1.3.0) (2021-10-29)
 
 
